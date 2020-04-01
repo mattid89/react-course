@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import person from './Person/Person';
 
 class App extends Component {
   state = {
@@ -13,15 +14,16 @@ class App extends Component {
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 26 },
-        { name: 'Stephanie', age: 31 }
-      ]
-    })
-  }
+  // switchNameHandler = (newName) => {
+  //   this.setState({
+  //     persons: [
+  //       { name: newName, age: 28 },
+  //       { name: 'Manu', age: 26 },
+  //       { name: 'Stephanie', age: 31 }
+  //     ]
+  //   })
+  // }
+  
 
   nameChangedHandler = (event) => {
     this.setState({
@@ -40,6 +42,12 @@ class App extends Component {
     });
   }
 
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -54,21 +62,18 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          <Person 
-            name={this.state.persons[0].name} 
-            age={this.state.persons[0].age} 
-          />
-          <Person 
-            name={this.state.persons[1].name} 
-            age={this.state.persons[1].age} 
-            // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
-            click={this.switchNameHandler.bind(this, 'Marta')}
-            changed={this.nameChangedHandler}
-          />
-          <Person 
-            name={this.state.persons[2].name} 
-            age={this.state.persons[2].age} 
-          />
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person 
+                name={person.name} 
+                age={person.age} 
+                click={this.deletePersonHandler.bind(this, index)}
+                // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
+                // click={this.switchNameHandler.bind(this, 'Marta')}
+                // changed={this.nameChangedHandler} 
+              />
+            )
+          })}
         </div>
       );
 
