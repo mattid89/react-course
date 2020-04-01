@@ -9,7 +9,8 @@ class App extends Component {
       { name: 'Manu', age: 26 },
       { name: 'Stephanie', age: 29 }
     ],
-    otroAtributoDelState: 'algun texto'
+    otroAtributoDelState: 'algun texto',
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -32,11 +33,18 @@ class App extends Component {
     })
   }
 
+  toggleNamesHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({
+      showPersons: !doesShow
+    });
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
       font: 'inherit',
-      border: '1px solid blue',
+      border: '1px solid grey',
       padding: '8px',
       cursor: 'pointer'
     }
@@ -48,23 +56,31 @@ class App extends Component {
 
         <button
           style={style} 
-          onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button>
+          // onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button>
+          onClick={this.toggleNamesHandler} >Toggle Nombres</button>
 
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-        />
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age} 
-          // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
-          click={this.switchNameHandler.bind(this, 'Marta')}
-          changed={this.nameChangedHandler}
-        />
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age} 
-        />
+        {
+          this.state.showPersons ?
+          <div>
+            <Person 
+              name={this.state.persons[0].name} 
+              age={this.state.persons[0].age} 
+            />
+            <Person 
+              name={this.state.persons[1].name} 
+              age={this.state.persons[1].age} 
+              // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
+              click={this.switchNameHandler.bind(this, 'Marta')}
+              changed={this.nameChangedHandler}
+            />
+            <Person 
+              name={this.state.persons[2].name} 
+              age={this.state.persons[2].age} 
+            />
+          </div>
+          : null
+        }
+
 
         {/* <div className="card-wrapper">
           {this.state.persons.map( person => {
