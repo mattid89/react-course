@@ -12,29 +12,59 @@ class App extends Component {
     otroAtributoDelState: 'algun texto'
   }
 
-  switchNameHandler = () => {
-    // console.log('hice click');
+  switchNameHandler = (newName) => {
     this.setState({
       persons: [
-        { name: 'Matias', age: 28 },
+        { name: newName, age: 28 },
         { name: 'Manu', age: 26 },
         { name: 'Stephanie', age: 31 }
       ]
     })
-    console.log(this.state);
+  }
+
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: event.target.value, age: 26 },
+        { name: 'Stephanie', age: 29 }
+      ]
+    })
   }
 
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App!</h1>
         <p>Probando un texto</p>
 
-        <button onClick={this.switchNameHandler} >Cambiar Nombre</button>
+        <button
+          style={style} 
+          onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button>
 
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age} />
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+        <Person 
+          name={this.state.persons[0].name} 
+          age={this.state.persons[0].age} 
+        />
+        <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age} 
+          // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
+          click={this.switchNameHandler.bind(this, 'Marta')}
+          changed={this.nameChangedHandler}
+        />
+        <Person 
+          name={this.state.persons[2].name} 
+          age={this.state.persons[2].age} 
+        />
 
         {/* <div className="card-wrapper">
           {this.state.persons.map( person => {
