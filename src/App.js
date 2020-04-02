@@ -5,9 +5,9 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 26 },
-      { name: 'Stephanie', age: 29 }
+      { id: '1', name: 'Max', age: 28 },
+      { id: '2', name: 'Manu', age: 26 },
+      { id: '3', name: 'Stephanie', age: 29 }
     ],
     otroAtributoDelState: 'algun texto',
     showPersons: false
@@ -24,14 +24,27 @@ class App extends Component {
   // }
   
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 26 },
-        { name: 'Stephanie', age: 29 }
-      ]
+  nameChangedHandler = (event, id) => {
+    // obtengo el index de la persona con el id recibido por paramtro
+    const personIndex = this.state.persons.findIndex( p => {
+      return p.id === id;
     })
+    // obtengo una copia de la persona con todos sus atributos con el spread operator, usando el personIndex
+    const person = { ...this.state.persons[personIndex] };
+
+    // Alternativa
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+
+    // cambio el nombre a la copia de mi objeto persona
+    person.name = event.target.value;
+    // obtengo una copia de mi array de personas
+    const persons = [...this.state.persons];
+    // actualizo la persona que corresponde usando personIndex de nuevo
+    persons[personIndex] = person;
+    // actualizo el state
+    this.setState({
+      persons: persons
+    });
   }
 
   toggleNamesHandler = () => {
@@ -42,8 +55,12 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+    // obtengo una copia del array de personas
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    // elimino la persona usando el index recibido por parametro en mi copia del array
     persons.splice(personIndex, 1);
+    // actualizo el state
     this.setState({persons: persons})
   }
 
@@ -67,6 +84,8 @@ class App extends Component {
                 name={person.name} 
                 age={person.age} 
                 click={this.deletePersonHandler.bind(this, index)}
+                changed={(event) => this.nameChangedHandler(event, person.id)} 
+                key={person.id}
                 // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
                 // click={this.switchNameHandler.bind(this, 'Marta')}
                 // changed={this.nameChangedHandler} 
