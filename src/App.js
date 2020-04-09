@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-// import Radium, { StyleRoot } from "radium";
 import Person from './Person/Person';
 
 class App extends Component {
@@ -66,21 +65,6 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid green',
-      padding: '8px',
-      cursor: 'pointer',
-      borderRadius: '3px',
-      fontWeight: 'bold',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    }
-
     let persons = null;
 
     if (this.state.showPersons) {
@@ -102,12 +86,13 @@ class App extends Component {
           })}
         </div>
       );
-      style.backgroundColor = 'red';
-      style.border = '1px solid red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+
+      // style.backgroundColor = 'red';
+      // style.border = '1px solid red';
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black'
+      // }
     }
 
     const posibleClasses = [];
@@ -117,18 +102,17 @@ class App extends Component {
     if (this.state.persons.length <= 1) {
       posibleClasses.push('bold');
     }
-    const classes = posibleClasses.join(' ');
+    const assignedClasses = posibleClasses.join(' ');
 
     return (
         <div className="App">
           <h1>Hi, I'm a React App!</h1>
-          <p className={classes}>Esto anda muy bien!</p>
+          <p className={assignedClasses}>Esto anda muy bien!</p>
 
-          <button
-            style={style} 
-            // onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button>
-            onClick={this.toggleNamesHandler} >Toggle Nombres</button>
-            {persons}
+           {/* onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button> */}
+          <button onClick={this.toggleNamesHandler} >Toggle Nombres</button>
+
+          {persons}
         </div>
     );
   };

@@ -1,6 +1,5 @@
 import React from 'react';
 import './Person.css';
-// import Radium from "radium";
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
