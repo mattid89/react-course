@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+// import './App.css';
+import classes from './App.module.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -66,6 +67,7 @@ class App extends Component {
 
   render() {
     let persons = null;
+    let btncls = [classes.Button];
 
     if (this.state.showPersons) {
       persons = (
@@ -87,12 +89,9 @@ class App extends Component {
         </div>
       );
 
-      // style.backgroundColor = 'red';
-      // style.border = '1px solid red';
-      // style[':hover'] = {
-      //   backgroundColor: 'salmon',
-      //   color: 'black'
-      // }
+      btncls.push(classes.Red)
+
+      
     }
 
     const posibleClasses = [];
@@ -105,12 +104,12 @@ class App extends Component {
     const assignedClasses = posibleClasses.join(' ');
 
     return (
-        <div className="App">
+        <div className={classes.App}>
           <h1>Hi, I'm a React App!</h1>
           <p className={assignedClasses}>Esto anda muy bien!</p>
 
            {/* onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button> */}
-          <button onClick={this.toggleNamesHandler} >Toggle Nombres</button>
+          <button className={btncls.join(' ')} onClick={this.toggleNamesHandler}>Toggle Nombres</button>
 
           {persons}
         </div>
