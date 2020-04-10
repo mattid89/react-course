@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
-import Person from '../components/Persons/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+  
   state = {
     persons: [
       { id: '1', name: 'Max', age: 28 },
@@ -13,16 +19,10 @@ class App extends Component {
     showPersons: false
   }
 
-  // switchNameHandler = (newName) => {
-  //   this.setState({
-  //     persons: [
-  //       { name: newName, age: 28 },
-  //       { name: 'Manu', age: 26 },
-  //       { name: 'Stephanie', age: 31 }
-  //     ]
-  //   })
-  // }
-  
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
 
   nameChangedHandler = (event, id) => {
     // obtengo el index de la persona con el id recibido por paramtro
@@ -65,51 +65,26 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
-    let btncls = [classes.Button];
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <Person 
-                name={person.name} 
-                age={person.age} 
-                click={this.deletePersonHandler.bind(this, index)}
-                changed={(event) => this.nameChangedHandler(event, person.id)} 
-                key={person.id}
-                // mejor forma de hacerlos => usar arroy function puede ser poco eficiente
-                // click={this.switchNameHandler.bind(this, 'Marta')}
-                // changed={this.nameChangedHandler} 
-              />
-            )
-          })}
-        </div>
-      );
-
-      btncls.push(classes.Red)
-
-      
+      persons = 
+          <Persons 
+            persons={this.state.persons} 
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler}
+          />;
     }
-
-    const posibleClasses = [];
-    if (this.state.persons.length <= 2) {
-      posibleClasses.push('red');
-    }
-    if (this.state.persons.length <= 1) {
-      posibleClasses.push('bold');
-    }
-    const assignedClasses = posibleClasses.join(' ');
 
     return (
         <div className={classes.App}>
-          <h1>Hi, I'm a React App!</h1>
-          <p className={assignedClasses}>Esto anda muy bien!</p>
-
-           {/* onClick={() => this.switchNameHandler('Matias')} >Cambiar Nombre</button> */}
-          <button className={btncls.join(' ')} onClick={this.toggleNamesHandler}>Toggle Nombres</button>
-
+          <Cockpit 
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons} 
+            persons={this.state.persons}
+            clicked={this.toggleNamesHandler}
+          />
           {persons}
         </div>
     );
@@ -117,5 +92,4 @@ class App extends Component {
   // React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Ahora si anda...'))
 }
 
-// export default Radium(App);
 export default App;

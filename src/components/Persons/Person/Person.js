@@ -11,5 +11,4 @@ const person = (props) => {
         </div>
     )}
 
-// export default Radium(person);
 export default person;
