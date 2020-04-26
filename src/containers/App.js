@@ -6,9 +6,9 @@ import Cockpit from '../components/Cockpit/Cockpit';
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log('[App.js] constructor');
+    console.log('[App.js] constructor')
   }
-  
+
   state = {
     persons: [
       { id: '1', name: 'Max', age: 28 },
@@ -17,12 +17,25 @@ class App extends Component {
     ],
     otroAtributoDelState: 'algun texto',
     showPersons: false
+  };
+
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log('[App.js] getDerivedStateFromProps', props);
+  //   return state;
+  // }
+
+  componentDidMount() {
+    console.log('componentDidMount');
   }
 
-  static getDerivedStateFromProps(props, state) {
-    console.log('[App.js] getDerivedStateFromProps', props);
-    return state;
+  componentDidUpdate() {
+    console.log('App -> componentDidUpdate');
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('App -> shouldComponentUpdate');
+    return true;
+}
 
   nameChangedHandler = (event, id) => {
     // obtengo el index de la persona con el id recibido por paramtro
